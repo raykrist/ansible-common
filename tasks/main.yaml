@@ -1,0 +1,11 @@
+- name: Gather OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+      - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yaml"
+      - "vars/{{ ansible_distribution }}.yaml"
+      skip: true
+  tags: vars
+- import_tasks: users.yaml
+- import_tasks: repo.yaml
+- import_tasks: packages.yaml

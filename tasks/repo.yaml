@@ -1,0 +1,13 @@
+---
+- name: Add repository
+  yum_repository:
+    name:       "{{ item.key }}"
+    state:      "{{ item.value.state | default('present') }}"
+    baseurl:    "{{ item.value.baseurl | default(omit) }}"
+    mirrorlist: "{{ item.value.mirrorlist | default(omit) }}"
+    enabled:    "{{ item.value.enable | default('yes') }}"
+    gpgkey:     "{{ item.value.gpgkey | default(omit) }}"
+    gpgcheck:   "{{ item.value.gpgcheck | default('yes') }}"
+    description: "{{ item.value.gpgcheck | default(item.key) }}"
+  with_dict:      "{{ custom_yum_repos | default({}) }}"
+  when: ansible_os_family == "RedHat"

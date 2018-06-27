@@ -1,0 +1,28 @@
+---
+- name: Update installed packages with yum
+  yum:
+    name: '*'
+    update_cache: yes
+    state: latest
+  when: ansible_distribution == 'CentOS' 
+- name: Update installed packages with apt 
+  apt:
+    upgrade: dist
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- name: Install basic packages for {{ ansible_distribution }}
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ common_packages | default([]) }}"
+#- name: Update yum repo
+#  command: yum clean all
+#  when: ansible_distribution == 'CentOS'
+#  ignore_errors: yes
+#- debug: msg="{{item}}"
+#  with_dict: "{{custom_packages}}"
+- name: Install custom packages for {{ ansible_hostname }}
+  package:
+    name: "{{ item.key }}"
+    state: "{{ item.value.state | default('present') }}"
+  with_dict: "{{ custom_packages | default({}) }}"
+  ignore_errors: yes
