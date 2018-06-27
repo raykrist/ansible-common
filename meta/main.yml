@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Raymond Kristiansen
+  description: simple role for basic setup
+  license: GPLv3
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: centos
+      versions:
+        - 7
+    - name: ubuntu
+      versions:
+        - 16.04
+
+  galaxy_tags: [common]
+
+dependencies: []
