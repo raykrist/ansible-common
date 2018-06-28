@@ -5,6 +5,7 @@
     state:        "{{ item.value.state | default('present') }}"
     uid:          "{{ item.value.uid | default(omit) }}"
     group:        "{{ item.value.group | default(omit) }}"
+    groups:       "{{ item.value.groups | default(omit) }}"
     shell:        "{{ item.value.shell | default(omit) }}"
     createhome:   "{{ item.value.createhome | default('yes') }}"
     system:       "{{ item.value.system | default(omit) }}"

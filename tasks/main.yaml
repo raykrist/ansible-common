@@ -6,6 +6,6 @@
       - "vars/{{ ansible_distribution }}.yaml"
       skip: true
   tags: vars
-- import_tasks: users.yaml
 - import_tasks: repo.yaml
 - import_tasks: packages.yaml
+- import_tasks: users.yaml
