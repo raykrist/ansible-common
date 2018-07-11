@@ -12,10 +12,11 @@
   with_dict:      "{{ custom_users | default({}) }}"
 - name: Setup authorized keys
   authorized_key:
-    user:         "{{ item.key }}"
+    user:         "{{ item.value.user | default(item.key) }}"
     state:        "{{ item.value.state | default('present') }}"
     key_options:  "{{ item.value.key_options | default(omit) }}"
-    key:          "{{ item.value.key | default(lookup('file', item.value.file | default(lookup('env', 'HOME') + '/.ssh/id_rsa.pub'))) }}"
+    key:          "{{ item.value.key }}"
+      #| default(lookup('file', item.value.file | default(lookup('env', 'HOME') + '/.ssh/id_rsa.pub'))) }}"
   with_dict:      "{{ custom_authorized_keys | default({}) }}"
   ignore_errors:  yes
 - name: Setup sudo
