@@ -8,6 +8,8 @@
 - name: Update installed packages with apt 
   apt:
     upgrade: dist
+    update_cache: yes
+    state: latest
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 - name: Install basic packages for {{ ansible_distribution }}
   package:
