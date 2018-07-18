@@ -11,6 +11,11 @@
     update_cache: yes
     state: latest
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- name: Updated installed packages with dnf
+  dnf:
+    name: '*'
+    state: latest
+  when: ansible_distribution == 'Fedora'
 - name: Install basic packages for {{ ansible_distribution }}
   package:
     name: "{{ item }}"

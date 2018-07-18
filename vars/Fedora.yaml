@@ -1,0 +1,6 @@
+common_packages:
+  - wget
+  - git
+  - vim-enhanced
+  - nc
+  - bind-utils
