@@ -5,22 +5,26 @@
     update_cache: yes
     state: latest
   when: ansible_distribution == 'CentOS' 
+  tags: upgrade
 - name: Update installed packages with apt 
   apt:
     upgrade: dist
     update_cache: yes
     state: latest
+  tags: upgrade_packages
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 - name: Updated installed packages with dnf
   dnf:
     name: '*'
     state: latest
   when: ansible_distribution == 'Fedora'
+  tags: upgrade_packages
 - name: Install basic packages for {{ ansible_distribution }}
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ common_packages | default([]) }}"
+  tags: basic_packages
 #- name: Update yum repo
 #  command: yum clean all
 #  when: ansible_distribution == 'CentOS'
