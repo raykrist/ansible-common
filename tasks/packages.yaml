@@ -4,33 +4,37 @@
     name: '*'
     update_cache: yes
     state: latest
-  when: ansible_distribution == 'CentOS' 
-  tags: upgrade
+  when:
+    - ansible_distribution == 'CentOS'
+    - upgrade_packages|bool
+  tags: upgrade_packages|bool
+
 - name: Update installed packages with apt 
   apt:
     upgrade: dist
     update_cache: yes
     state: latest
   tags: upgrade_packages
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  when:
+    - ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    - upgrade_packages|bool
+
 - name: Updated installed packages with dnf
   dnf:
     name: '*'
     state: latest
-  when: ansible_distribution == 'Fedora'
-  tags: upgrade_packages
+  when:
+    - ansible_distribution == 'Fedora'
+    - upgrade_packages|bool
+  tags: upgrade_packages|bool
+
 - name: Install basic packages for {{ ansible_distribution }}
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ common_packages | default([]) }}"
   tags: basic_packages
-#- name: Update yum repo
-#  command: yum clean all
-#  when: ansible_distribution == 'CentOS'
-#  ignore_errors: yes
-#- debug: msg="{{item}}"
-#  with_dict: "{{custom_packages}}"
+
 - name: Install custom packages for {{ ansible_hostname }}
   package:
     name: "{{ item.key }}"
