@@ -1,0 +1,18 @@
+---
+- name: Add systemd service
+  systemd:
+    name:          "{{ item.key }}"
+    state:         "{{ item.value.state | default('present') }}"
+    enabled:       "{{ item.value.enabled | default('yes') }}"
+    daemon_reload: "{{ item.value.daemon_reload | default('no') }}"
+  with_dict: "{{ custom_services | default({}) }}"
+  when: ansible_service_mgr == "systemd"
+
+- name: Add service
+  service:
+    name:          "{{ item.key }}"
+    state:         "{{ item.value.state | default('present') }}"
+    enabled:       "{{ item.value.enabled | default('yes') }}"
+  with_dict: "{{ custom_services | default({}) }}"
+  when: ansible_service_mgr != "systemd"
+

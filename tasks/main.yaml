@@ -9,3 +9,4 @@
 - import_tasks: repo.yaml
 - import_tasks: packages.yaml
 - import_tasks: users.yaml
+- import_tasks: service.yaml
