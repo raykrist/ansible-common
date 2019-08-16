@@ -8,6 +8,6 @@
     enabled:    "{{ item.value.enable | default('yes') }}"
     gpgkey:     "{{ item.value.gpgkey | default(omit) }}"
     gpgcheck:   "{{ item.value.gpgcheck | default('yes') }}"
-    description: "{{ item.value.gpgcheck | default(item.key) }}"
+    description: "{{ item.value.description | default(item.key) }}"
   with_dict:      "{{ custom_yum_repos | default({}) }}"
   when: ansible_os_family == "RedHat"
