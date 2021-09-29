@@ -24,7 +24,7 @@
     name: '*'
     state: latest
   when:
-    - ansible_distribution == 'Fedora'
+    - ansible_distribution == 'Fedora' or ansible_distribution == 'AlmaLinux'
     - upgrade_packages|bool
   tags: upgrade_packages|bool
 
