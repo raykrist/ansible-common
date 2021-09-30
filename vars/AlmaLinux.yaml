@@ -1,0 +1,7 @@
+common_packages:
+  - epel-release
+  - wget
+  - git
+  - vim-enhanced
+  - nc
+  - bind-utils
