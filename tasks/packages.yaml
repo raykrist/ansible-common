@@ -30,14 +30,23 @@
 
 - name: Install basic packages for {{ ansible_distribution }}
   package:
-    name: "{{ item }}"
+    name: "{{ common_packages | default([]) }}"
     state: present
-  with_items: "{{ common_packages | default([]) }}"
   tags: basic_packages
 
 - name: Install custom packages for {{ ansible_hostname }}
+  vars:
+    # create a dictionary of present and absent packages
+    - package_list: "{{ custom_packages | default({}) | dict2items }}"
+    - with_state: "{{ package_list | selectattr('value.state', 'defined') | list }}"
+    - without_state: "{{ package_list | rejectattr('value.state', 'defined') | list }}"
+    - present_packages: "{{ with_state | selectattr('value.state', 'equalto', 'present') | list | union(without_state) | map(attribute='key') | list }}"
+    - absent_packages: "{{ with_state | selectattr('value.state', 'equalto', 'absent') | map(attribute='key') | list }}"
+    - package_groups:
+        - present: "{{ present_packages }}"
+        - absent: "{{ absent_packages }}"
   package:
-    name: "{{ item.key }}"
-    state: "{{ item.value.state | default('present') }}"
-  with_dict: "{{ custom_packages | default({}) }}"
-  ignore_errors: yes
+    name: "{{ item.value }}"
+    state: "{{ item.key }}"
+  when: "item.value | length > 0"
+  with_dict: "{{ package_groups }}"
