@@ -1,6 +1,6 @@
 ---
 - name: Add systemd service
-  systemd:
+  ansible.builtin.systemd:
     name:          "{{ item.key }}"
     state:         "{{ item.value.state | default('started') }}"
     enabled:       "{{ item.value.enabled | default('yes') }}"
@@ -9,10 +9,9 @@
   when: ansible_service_mgr == "systemd"
 
 - name: Add service
-  service:
+  ansible.builtin.service:
     name:          "{{ item.key }}"
     state:         "{{ item.value.state | default('started') }}"
     enabled:       "{{ item.value.enabled | default('yes') }}"
   with_dict: "{{ custom_services | default({}) }}"
   when: ansible_service_mgr != "systemd"
-

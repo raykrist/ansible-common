@@ -1,7 +1,8 @@
 common_packages:
   - epel-release
   - wget
-  - git
+  - git-core
   - vim-enhanced
   - nc
   - bind-utils
+common_dnf_upgrade: true

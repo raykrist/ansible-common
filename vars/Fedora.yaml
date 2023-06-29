@@ -4,3 +4,4 @@ common_packages:
   - vim-enhanced
   - nc
   - bind-utils
+common_dnf_upgrade: true

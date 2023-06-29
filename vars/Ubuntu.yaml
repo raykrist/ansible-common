@@ -3,3 +3,4 @@ common_packages:
   - vim-nox
   - netcat
   - dnsutils
+common_apt_upgrade: true
