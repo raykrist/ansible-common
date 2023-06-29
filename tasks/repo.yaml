@@ -1,6 +1,6 @@
 ---
 - name: Add repository
-  yum_repository:
+  ansible.builtin.yum_repository:
     name:       "{{ item.key }}"
     state:      "{{ item.value.state | default('present') }}"
     baseurl:    "{{ item.value.baseurl | default(omit) }}"

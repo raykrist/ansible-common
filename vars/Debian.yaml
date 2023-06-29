@@ -4,3 +4,4 @@ common_packages:
   - netcat
   - dnsutils
   - curl
+common_apt_upgrade: true

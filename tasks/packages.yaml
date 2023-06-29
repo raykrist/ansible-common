@@ -1,51 +1,54 @@
 ---
 - name: Update installed packages with yum
-  yum:
+  ansible.builtin.yum:
     name: '*'
-    update_cache: yes
+    update_cache: true
     state: latest
+    update_only: true
   when:
-    - ansible_distribution == 'CentOS'
+    - common_yum_upgrade | default(false)
     - upgrade_packages|bool
-  tags: upgrade_packages|bool
-
-- name: Update installed packages with apt 
-  apt:
-    upgrade: dist
-    update_cache: yes
-    state: latest
   tags: upgrade_packages
+
+- name: Update installed packages with apt
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: true
+    state: latest # noqa package-latest
   when:
-    - ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    - common_apt_upgrade | default(false)
     - upgrade_packages|bool
+  tags: upgrade_packages
 
 - name: Updated installed packages with dnf
-  dnf:
+  ansible.builtin.dnf:
     name: '*'
     state: latest
+    update_only: true
   when:
-    - ansible_distribution == 'Fedora' or ansible_distribution == 'AlmaLinux'
+    - common_dnf_upgrade | default(false)
     - upgrade_packages|bool
-  tags: upgrade_packages|bool
+  tags: upgrade_packages
 
-- name: Install basic packages for {{ ansible_distribution }}
-  package:
+- name: Install common packages
+  ansible.builtin.package:
     name: "{{ common_packages | default([]) }}"
     state: present
-  tags: basic_packages
+  when: install_common_packages
+  tags: common_packages
 
-- name: Install custom packages for {{ ansible_hostname }}
+- name: Install custom packages
   vars:
     # create a dictionary of present and absent packages
-    - package_list: "{{ custom_packages | default({}) | dict2items }}"
-    - with_state: "{{ package_list | selectattr('value.state', 'defined') | list }}"
-    - without_state: "{{ package_list | rejectattr('value.state', 'defined') | list }}"
-    - present_packages: "{{ with_state | selectattr('value.state', 'equalto', 'present') | list | union(without_state) | map(attribute='key') | list }}"
-    - absent_packages: "{{ with_state | selectattr('value.state', 'equalto', 'absent') | map(attribute='key') | list }}"
-    - package_groups:
-        - present: "{{ present_packages }}"
-        - absent: "{{ absent_packages }}"
-  package:
+    package_list: "{{ custom_packages | default({}) | dict2items }}"
+    with_state: "{{ package_list | selectattr('value.state', 'defined') | list }}"
+    without_state: "{{ package_list | rejectattr('value.state', 'defined') | list }}"
+    present_packages: "{{ with_state | selectattr('value.state', 'equalto', 'present') | list | union(without_state) | map(attribute='key') | list }}"
+    absent_packages: "{{ with_state | selectattr('value.state', 'equalto', 'absent') | map(attribute='key') | list }}"
+    package_groups:
+      - present: "{{ present_packages }}"
+      - absent: "{{ absent_packages }}"
+  ansible.builtin.package:
     name: "{{ item.value }}"
     state: "{{ item.key }}"
   when: "item.value | length > 0"
