@@ -1,0 +1,10 @@
+---
+- name: "modify repo"
+  community.general.ini_file:
+    path:       "/etc/yum.repos.d/{{ item.repo_name }}.repo"
+    section:    "{{ item.section }}"
+    option:     "{{ item.option }}"
+    value:      "{{ item.value }}"
+    create:     no
+  loop: "{{ modify_repo }}"
+  when: modify_repo is defined

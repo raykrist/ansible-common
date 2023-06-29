@@ -11,6 +11,9 @@
 - name: Install repo
   ansible.builtin.import_tasks: repo.yaml
 
+- name: Modify repo
+- ansible.builtin.import_tasks: modify_repo.yaml
+
 - name: Install packages
   ansible.builtin.import_tasks: packages.yaml
 

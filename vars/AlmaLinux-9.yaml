@@ -1,0 +1,15 @@
+---
+modify_repo:
+  - repo_name: almalinux-crb
+    section: "crb"
+    option: enabled
+    value: 1
+
+common_packages:
+  - epel-release
+  - centos-release-openstack-yoga
+  - wget
+  - git
+  - vim-enhanced
+  - nc
+  - bind-utils
