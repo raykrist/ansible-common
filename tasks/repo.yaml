@@ -1,13 +1,15 @@
 ---
 - name: Add repository
   ansible.builtin.yum_repository:
-    name:       "{{ item.key }}"
-    state:      "{{ item.value.state | default('present') }}"
-    baseurl:    "{{ item.value.baseurl | default(omit) }}"
+    name: "{{ item.key }}"
+    state: "{{ item.value.state | default('present') }}"
+    baseurl: "{{ item.value.baseurl | default(omit) }}"
     mirrorlist: "{{ item.value.mirrorlist | default(omit) }}"
-    enabled:    "{{ item.value.enable | default('yes') }}"
-    gpgkey:     "{{ item.value.gpgkey | default(omit) }}"
-    gpgcheck:   "{{ item.value.gpgcheck | default('yes') }}"
+    metalink: "{{ item.value.metalink | default(omit) }}"
+    enabled: "{{ item.value.enable | default('yes') }}"
+    gpgkey: "{{ item.value.gpgkey | default(omit) }}"
+    gpgcheck: "{{ item.value.gpgcheck | default('yes') }}"
+    module_hotfixes: "{{ item.value.module_hotfixes | default('yes') }}"
     description: "{{ item.value.description | default(item.key) }}"
   with_dict:      "{{ custom_yum_repos | default({}) }}"
   when: ansible_os_family == "RedHat"
