@@ -6,3 +6,4 @@ common_packages:
   - nc
   - bind-utils
 common_yum_upgrade: true
+cloud_user: centos

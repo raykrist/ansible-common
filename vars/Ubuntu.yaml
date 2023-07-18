@@ -4,3 +4,4 @@ common_packages:
   - netcat
   - dnsutils
 common_apt_upgrade: true
+cloud_user: ubuntu

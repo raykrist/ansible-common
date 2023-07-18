@@ -5,3 +5,4 @@ common_packages:
   - dnsutils
   - curl
 common_apt_upgrade: true
+cloud_user: debian

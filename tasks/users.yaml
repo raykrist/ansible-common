@@ -32,3 +32,12 @@
            default('ALL') }}"
   with_dict: "{{ custom_sudoers | default({}) }}"
   # ignore_errors: true
+
+- name: Clean up cloud user
+  ansible.builtin.user:
+    name: "{{ cloud_user }}"
+    state: absent
+  when:
+    - cloud_user is defined
+    - cloud_user != hostvars[inventory_hostname]['ansible_ssh_user']
+    - remove_cloud_user | default(false)

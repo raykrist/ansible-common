@@ -1,3 +1,4 @@
 ---
 upgrade_packages: false
 install_common_packages: true
+remove_cloud_user: false

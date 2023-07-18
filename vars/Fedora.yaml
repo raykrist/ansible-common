@@ -5,3 +5,4 @@ common_packages:
   - nc
   - bind-utils
 common_dnf_upgrade: true
+cloud_user: fedora
