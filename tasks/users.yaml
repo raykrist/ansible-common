@@ -39,5 +39,5 @@
     state: absent
   when:
     - cloud_user is defined
-    - cloud_user != hostvars[inventory_hostname]['ansible_ssh_user']
+    - cloud_user != lookup('env', 'USER')
     - remove_cloud_user | default(false)
