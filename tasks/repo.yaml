@@ -1,5 +1,5 @@
 ---
-- name: Add repository
+- name: Add yum repository
   ansible.builtin.yum_repository:
     name: "{{ item.key }}"
     state: "{{ item.value.state | default('present') }}"
@@ -11,5 +11,24 @@
     gpgcheck: "{{ item.value.gpgcheck | default('yes') }}"
     module_hotfixes: "{{ item.value.module_hotfixes | default('yes') }}"
     description: "{{ item.value.description | default(item.key) }}"
-  with_dict:      "{{ custom_yum_repos | default({}) }}"
+  with_dict: "{{ custom_yum_repos | default({}) }}"
   when: ansible_os_family == "RedHat"
+
+- name: Add apt gpg keys
+  ansible.builtin.apt_key:
+    url: "{{ item.value.url }}"
+    state: "{{ item.value.state | default('present') }}"
+    id: "{{ item.value.id | default(omit) }}"
+    keyring: "{{ item.value.keyring | default(omit) }}"
+  with_dict: "{{ custom_apt_keys | default({}) }}"
+  when: ansible_os_family == "Debian"
+
+- name: Add apt repository
+  ansible.builtin.apt_repository:
+    filename: "{{ item.key }}"
+    state: "{{ item.value.state | default('present') }}"
+    repo: "{{ item.value.repo }}"
+    codename: "{{ item.value.codename | default(omit) }}"
+    validate_certs: "{{ item.value.validate_certs | default(omit) }}"
+  with_dict: "{{ custom_apt_repos | default({}) }}"
+  when: ansible_os_family == "Debian"
