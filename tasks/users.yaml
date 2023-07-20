@@ -18,7 +18,7 @@
     key_options: "{{ item.value.key_options | default(omit) }}"
     key: "{{ item.value.key }}"
   with_dict: "{{ custom_authorized_keys | default({}) }}"
-  # ignore_errors: true
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Setup sudo
   ansible.builtin.lineinfile:

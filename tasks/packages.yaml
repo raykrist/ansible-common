@@ -52,4 +52,5 @@
     name: "{{ item.value }}"
     state: "{{ item.key }}"
   when: "item.value | length > 0"
+  ignore_errors: "{{ ansible_check_mode }}"
   with_dict: "{{ package_groups }}"
