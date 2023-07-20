@@ -20,6 +20,13 @@
     - upgrade_packages|bool
   tags: upgrade_packages
 
+- name: Refresh apt repos
+  ansible.builtin.apt:
+     update_cache: true
+  when:
+    - common_apt_upgrade
+  check_mode: false
+
 - name: Updated installed packages with dnf
   ansible.builtin.dnf:
     name: '*'
