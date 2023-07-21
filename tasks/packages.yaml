@@ -24,7 +24,7 @@
   ansible.builtin.apt:
      update_cache: true
   when:
-    - common_apt_upgrade
+    - ansible_os_family == "Debian"
   check_mode: false
 
 - name: Updated installed packages with dnf
