@@ -4,3 +4,7 @@ warn_list:
 
 skip_list:
   - yaml[colons]
+
+profile: basic
+exclude_paths:
+  - .github/
