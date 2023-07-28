@@ -19,3 +19,7 @@
 
 - name: Setup services
   ansible.builtin.import_tasks: service.yaml
+
+- name: Manage volume
+  ansible.builtin.import_tasks: volume.yaml
+  when: manage_volume | bool

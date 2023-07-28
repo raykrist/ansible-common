@@ -1,7 +1,1 @@
-common_packages:
-  - git
-  - vim-nox
-  - netcat
-  - dnsutils
-common_apt_upgrade: true
-cloud_user: ubuntu
+lvm_packages: [lvm2]

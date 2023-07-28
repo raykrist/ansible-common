@@ -1,0 +1,38 @@
+- name: Install lvm package
+  ansible.builtin.package:
+    name: "{{ lvm_packages | default([]) }}"
+    state: present
+
+- name: Create new volume group
+  community.general.lvg:
+    vg: "{{ volume_vgname }}"
+    pvs: "{{ volume_device }}"
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Creating new logical volume
+  community.general.lvol:
+    vg: "{{ volume_vgname }}"
+    lv: "{{ volume_lvname }}"
+    size: '100%FREE'
+    shrink: false
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Creating new filesystem on new volume
+  community.general.filesystem:
+    fstype: "{{ volume_fstype }}"
+    dev: "/dev/{{ volume_vgname }}/{{ volume_lvname }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Create mount point
+  ansible.builtin.file:
+    path: "{{ volume_mount_point }}"
+    state: 'directory'
+    mode: '0755'
+
+- name: Mounting new filesystem
+  ansible.builtin.mount:
+    name: "{{ volume_mount_point }}"
+    src: "/dev/{{ volume_vgname }}/{{ volume_lvname }}"
+    fstype: "{{ volume_fstype }}"
+    state: 'mounted'

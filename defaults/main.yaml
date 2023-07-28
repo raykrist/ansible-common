@@ -2,3 +2,11 @@
 upgrade_packages: false
 install_common_packages: true
 remove_cloud_user: false
+manage_volume: false
+
+# volume defaults
+volume_device:      '/dev/sdb'
+volume_vgname:      'vg_test'
+volume_lvname:      'lv_test'
+volume_mount_point: '/data'
+volume_fstype:      'ext4'

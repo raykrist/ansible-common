@@ -1,9 +1,1 @@
-common_packages:
-  - epel-release
-  - wget
-  - git
-  - vim-enhanced
-  - nc
-  - bind-utils
-common_yum_upgrade: true
-cloud_user: centos
+lvm_packages: [lvm2]

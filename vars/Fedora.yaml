@@ -1,8 +1,1 @@
-common_packages:
-  - wget
-  - git
-  - vim-enhanced
-  - nc
-  - bind-utils
-common_dnf_upgrade: true
-cloud_user: fedora
+lvm_packages: [lvm2]

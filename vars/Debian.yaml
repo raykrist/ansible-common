@@ -1,8 +1,1 @@
-common_packages:
-  - git
-  - vim-nox
-  - netcat
-  - dnsutils
-  - curl
-common_apt_upgrade: true
-cloud_user: debian
+lvm_packages: [lvm2]

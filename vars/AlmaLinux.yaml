@@ -1,9 +1,1 @@
-common_packages:
-  - epel-release
-  - wget
-  - git-core
-  - vim-enhanced
-  - nc
-  - bind-utils
-common_dnf_upgrade: true
-cloud_user: almalinux
+lvm_packages: [lvm2]
