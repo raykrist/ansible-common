@@ -20,13 +20,6 @@
     - upgrade_packages|bool
   tags: upgrade_packages
 
-- name: Refresh apt repos
-  ansible.builtin.apt:
-     update_cache: true
-  when:
-    - ansible_os_family == "Debian"
-  check_mode: false
-
 - name: Updated installed packages with dnf
   ansible.builtin.dnf:
     name: '*'
@@ -36,6 +29,18 @@
     - common_dnf_upgrade | default(false)
     - upgrade_packages|bool
   tags: upgrade_packages
+
+- name: Refresh apt repos
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_pkg_mgr == "apt"
+  check_mode: false
+
+- name: Refresh dnf repos
+  ansible.builtin.dnf:
+    update_cache: true
+  when: ansible_pkg_mgr == 'dnf'
+  check_mode: false
 
 - name: Install common packages
   ansible.builtin.package:
