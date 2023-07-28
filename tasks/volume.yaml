@@ -31,7 +31,7 @@
     mode: '0755'
 
 - name: Mounting new filesystem
-  ansible.builtin.mount:
+  ansible.posix.mount:
     name: "{{ volume_mount_point }}"
     src: "/dev/{{ volume_vgname }}/{{ volume_lvname }}"
     fstype: "{{ volume_fstype }}"
