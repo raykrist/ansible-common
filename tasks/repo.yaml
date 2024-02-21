@@ -14,6 +14,13 @@
   with_dict: "{{ custom_yum_repos | default({}) }}"
   when: ansible_os_family == "RedHat"
 
+- name: Modify yum repos
+  community.general.dnf_config_manager:
+    name:    "{{ item.key }}"
+    state:   "{{ item.value.state }}"
+  with_dict: "{{ modify_repo | default({}) }}"
+  when: ansible_os_family == "RedHat"
+
 - name: Add apt gpg keys
   ansible.builtin.apt_key:
     url: "{{ item.value.url }}"
