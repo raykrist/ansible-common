@@ -16,10 +16,11 @@
 
 - name: Add apt gpg keys
   ansible.builtin.apt_key:
-    url: "{{ item.value.url }}"
+    url: "{{ item.value.url | default(omit) }}"
     state: "{{ item.value.state | default('present') }}"
     id: "{{ item.value.id | default(omit) }}"
     keyring: "{{ item.value.keyring | default(omit) }}"
+    keyserver: "{{ item.value.keyserver | default(omit) }}"
   with_dict: "{{ custom_apt_keys | default({}) }}"
   when: ansible_os_family == "Debian"
 
