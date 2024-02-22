@@ -1,4 +1,12 @@
 ---
+- name: Setup local groups
+  ansible.builtin.group:
+    name: "{{ item.key }}"
+    state: "{{ item.value.state | default('present') }}"
+    gid: "{{ item.value.gid | default(omit) }}"
+    local: "{{ item.value.local | default(false) }}"
+  with_dict: "{{ custom_groups | default({}) }}"
+
 - name: Setup local users
   ansible.builtin.user:
     name: "{{ item.key }}"
