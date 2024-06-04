@@ -21,3 +21,8 @@ To skip package upgrade and/or basic packages at runtime use `--skip-tags` with:
 * upgrade_packages: task that upgrades all installed packages to latest version
 * common_packages: set of basic packages that most people need
 
+## Requirements
+
+See `meta/requirements.yaml`
+
+
