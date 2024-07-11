@@ -23,6 +23,14 @@ To skip package upgrade and/or basic packages at runtime use `--skip-tags` with:
 
 ## Requirements
 
-See `meta/requirements.yaml`
+``` yaml
+collections:
+  - name: ansible.posix
+    version: 1.5.4
+  - name: ansible.netcommon
+    version: 5.1.2
+  - name: community.general
+    version: 8.2.0
+```
 
 
