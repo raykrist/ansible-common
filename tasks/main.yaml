@@ -20,6 +20,10 @@
 - name: Setup services
   ansible.builtin.import_tasks: service.yaml
 
+- name: Setup logrotate configuration
+  ansible.builtin.import_tasks: logrotate.yaml
+  tags: logrotate
+
 - name: Setup systemd cleanup configuration
   ansible.builtin.import_tasks: systemd_cleanup_rules.yaml
   tags: systemd-cleanup-rules
