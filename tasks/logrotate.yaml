@@ -1,0 +1,16 @@
+---
+- name: Logrotate configuration
+  ansible.builtin.copy:
+    dest: "{{ custom_logrotate.dest }}"
+    content: |
+      {{ custom_logrotate.log_file }} {
+          size {{ custom_logrotate.size }}
+          rotate {{ custom_logrotate.rotate }}
+          {% if custom_logrotate.compress %}  compress{% endif %}
+          {% if custom_logrotate.missingok %}  missingok{% endif %}
+          {% if custom_logrotate.notifempty %}  notifempty{% endif %}
+      }
+    owner: root
+    group: root
+    mode: '0644'
+  when: custom_logrotate is defined
