@@ -8,7 +8,7 @@
 - name: Check for existing rules
   ansible.builtin.lineinfile:
     path: '{{ item.value.rule }}'
-    regexp: '^(d)\s+({{ item.key }})\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)'
+    regexp: '^(\S+)\s+({{ item.key }})\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)'
     state: absent
   check_mode: true
   changed_when: false
@@ -24,9 +24,9 @@
 - name: Adjust existing cleanup rules
   ansible.builtin.lineinfile:
     path: '{{ item.item.value.rule }}'
-    regexp: '^(d)\s+({{ item.item.key }})\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)'
+    regexp: '^(\S+)\s+({{ item.item.key }})\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)'
     line: >
-      \g<1> {{ item.item.key }}
+      {{ item.item.value.modifier | default("\1") }} {{ item.item.key }}
       {{ item.item.value.permisson | default("\3") }}
       {{ item.item.value.user | default("\4") }}
       {{ item.item.value.group | default("\5") }}
@@ -39,7 +39,7 @@
   ansible.builtin.lineinfile:
     path: '{{ item.item.value.rule }}'
     line: >
-      d {{ item.item.key }}
+      {{ item.item.value.modifier | default("d") }} {{ item.item.key }}
       {{ item.item.value.permisson | default('0777') }}
       {{ item.item.value.user | default('root') }}
       {{ item.item.value.group | default('root') }}
