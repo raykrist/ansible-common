@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: common
   author: Raymond Kristiansen
   description: simple role for basic setup
   license: GPLv3
