@@ -20,4 +20,4 @@ jobs:
 
       - name: Run ansible-lint
         # replace `main` with any valid ref, or tags like `v6`
-        uses: ansible/ansible-lint-action@main
+        uses: ansible-actions/ansible-lint-action@v1.1.0
