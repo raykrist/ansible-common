@@ -4,6 +4,7 @@ warn_list:
 
 skip_list:
   - yaml[colons]
+  - role-name
 
 profile: basic
 exclude_paths:
