@@ -32,6 +32,10 @@
   ansible.builtin.import_tasks: volume.yaml
   when: manage_volume | bool
 
+- name: Setup firewall
+  ansible.builtin.import_tasks: firewall.yaml
+  tags: firewall
+
 - name: Setup cronjobs
   ansible.builtin.import_tasks: cronjobs.yaml
   tags: cronjobs

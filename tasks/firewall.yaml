@@ -1,0 +1,14 @@
+---
+- name: Setup firewall rules
+  ansible.posix.firewalld:
+    rich_rule: "{{ item.value.rich_rule | default(omit) }}"
+    source: "{{ item.value.user | default(omit) }}"
+    target: "{{ item.value.minute | default(omit) }}"
+    zone: "{{ item.value.zone | default('public') }}"
+    permanent: "{{ item.value.permanent | default(true) }}"
+    immediate: "{{ item.value.immediate | default(true) }}"
+    protocol: "{{ item.value.protocol | default(omit) }}"
+    service: "{{ item.value.service | default(omit) }}"
+    port: "{{ item.value.port | default(omit) }}"
+    state: "{{ item.value.state | default('enabled') }}"
+  with_dict: "{{ custom_firewall_rules | default({}) }}"
