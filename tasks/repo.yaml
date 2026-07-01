@@ -15,7 +15,7 @@
   when: ansible_os_family == "RedHat"
 
 - name: Modify yum repos
-  community.general.dnf_config_manager:
+  ansible.builtin.dnf:
     name:    "{{ item.key }}"
     state:   "{{ item.value.state }}"
   with_dict: "{{ modify_repo | default({}) }}"
